@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  category: string;
+  readTime: string;
+}
+
+const { title, excerpt, date, image, category, readTime } = Astro.props;
+---
+
+<article class="group">
+  <div class="relative overflow-hidden aspect-[16/10] mb-6">
+    <img 
+      src={image} 
+      alt={title} 
+      class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+    />
+    <div class="absolute top-4 left-4 bg-white text-primary px-4 py-2 text-sm font-medium">
+      {category}
+    </div>
+  </div>
+  <div class="space-y-4">
+    <div class="flex items-center space-x-4 text-sm text-secondary">
+      <time datetime={date}>{date}</time>
+      <span>•</span>
+      <span>{readTime}</span>
+    </div>
+    <h3 class="font-display text-2xl font-bold text-primary group-hover:text-accent transition-colors">
+      {title}
+    </h3>
+    <p class="text-secondary line-clamp-2">
+      {excerpt}
+    </p>
+  </div>
+</article>

@@ -1,0 +1,234 @@
+---
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Premium Property Developer specializing in luxury real estate" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style is:global>
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+      
+      /* Slide and fade animation for page transitions */
+      ::view-transition-old(page) {
+        animation: 
+          0.5s cubic-bezier(0.76, 0, 0.24, 1) both slide-out,
+          0.5s cubic-bezier(0.76, 0, 0.24, 1) both fade-out;
+      }
+
+      ::view-transition-new(page) {
+        animation: 
+          0.5s cubic-bezier(0.76, 0, 0.24, 1) both slide-in,
+          0.5s cubic-bezier(0.76, 0, 0.24, 1) both fade-in;
+      }
+
+      @keyframes slide-in {
+        from {
+          transform: translateY(5%) scale(0.98);
+        }
+        to {
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes slide-out {
+        from {
+          transform: translateY(0) scale(1);
+        }
+        to {
+          transform: translateY(-5%) scale(0.98);
+        }
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fade-out {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      /* Optional: Add a subtle blur effect */
+      ::view-transition-old(page),
+      ::view-transition-new(page) {
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+      }
+
+      /* Ensure smooth animations */
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+    <script 
+        src={`https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY`} 
+        defer
+    ></script>
+  </head>
+  <body class="bg-white font-body">
+    <header class="fixed w-full z-50">
+      <nav class="relative">
+        <!-- Split background -->
+        <div class="absolute inset-0 flex">
+          <div class="w-1/2 bg-nav-light"></div>
+          <div class="w-1/2 bg-nav-dark"></div>
+        </div>
+        
+        <!-- Navigation content -->
+        <div class="container mx-auto px-4 py-5 relative">
+          <div class="flex items-center justify-between">
+            <a href="/" class="flex items-center -ml-2">
+              <img src="/images/g66.png" alt="BORNLogo" class="h-14 w-auto" />
+            </a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-12">
+              <a href="/" class="font-medium text-primary hover:text-accent transition-colors">Strona Główna</a>
+              <a href="/realizacje" class="font-medium text-white hover:text-black transition-colors">Nasze Realizacje</a>
+              <a href="/blog" class="font-medium text-white hover:text-black transition-colors">Blog</a>
+              <a href="/o-nas" class="font-medium text-white hover:text-black transition-colors">O Nas</a>
+              <a href="/kontakt" class="font-medium text-white hover:text-black transition-colors">Kontakt</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button 
+              id="mobile-menu-button" 
+              class="md:hidden text-primary z-50"
+              aria-label="Menu"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Overlay -->
+          <div 
+            id="mobile-menu" 
+            class="fixed inset-0 bg-primary/95 z-40 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+          >
+            <div class="flex flex-col items-center justify-center h-full space-y-8">
+              <a href="/" class="font-medium text-white hover:text-accent transition-colors text-2xl">Strona Główna</a>
+              <a href="/realizacje" class="font-medium text-white hover:text-accent transition-colors text-2xl">Nasze Realizacje</a>
+              <a href="/blog" class="font-medium text-white hover:text-accent transition-colors text-2xl">Blog</a>
+              <a href="/o-nas" class="font-medium text-white hover:text-accent transition-colors text-2xl">O Nas</a>
+              <a href="/kontakt" class="font-medium text-white hover:text-accent transition-colors text-2xl">Kontakt</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add this script before closing body tag -->
+        <script>
+          // Wait for the DOM to be fully loaded
+          document.addEventListener('DOMContentLoaded', () => {
+            setupMobileMenu();
+          });
+
+          // Setup mobile menu functionality
+          function setupMobileMenu() {
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            let isOpen = false;
+
+            if (button && menu) {
+              button.addEventListener('click', () => {
+                isOpen = !isOpen;
+                menu.style.transform = isOpen ? 'translateX(0)' : 'translateX(100%)';
+                
+                // Update button icon
+                button.innerHTML = isOpen 
+                  ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>`
+                  : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>`;
+
+                // Prevent body scrolling when menu is open
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+              });
+
+              // Handle view transitions
+              document.addEventListener('astro:after-swap', () => {
+                // Reset menu state after page transition
+                isOpen = false;
+                menu.style.transform = 'translateX(100%)';
+                document.body.style.overflow = '';
+                setupMobileMenu(); // Reinitialize menu after navigation
+              });
+
+              // Close menu when clicking on a link
+              menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                  isOpen = false;
+                  menu.style.transform = 'translateX(100%)';
+                  document.body.style.overflow = '';
+                });
+              });
+            }
+          }
+        </script>
+      </nav>
+    </header>
+
+    <div id="page" class="view-transition-page">
+      <slot />
+    </div>
+
+    <footer class="bg-primary text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <img 
+              src="/images/logo_born_white.png" 
+              alt="BORN Logo" 
+              class="h-12 w-auto mb-6"
+            />
+            <p class="text-gray-400 leading-relaxed">
+              Tworzymy wyjątkowe przestrzenie mieszkalne, które na nowo definiują nowoczesne życie.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-display text-xl mb-6">Kontakt</h3>
+            <p class="text-gray-400 mb-2">Email: info@born.pl</p>
+            <p class="text-gray-400">Tel: +48 123 456 789</p>
+          </div>
+          <div>
+            <h3 class="font-display text-xl mb-6">Social Media</h3>
+            <div class="flex space-x-6">
+              <a href="#" class="text-gray-400 hover:text-accent transition-colors">LinkedIn</a>
+              <a href="#" class="text-gray-400 hover:text-accent transition-colors">Instagram</a>
+              <a href="#" class="text-gray-400 hover:text-accent transition-colors">Facebook</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
