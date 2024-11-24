@@ -134,9 +134,11 @@ const realizacje = [
       <div class="container mx-auto px-4">
         {realizacje.map((projekt, index) => (
           <div class="mb-32 last:mb-0">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-              <div class={`space-y-8 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                <div class="flex items-center space-x-4">
+            <!-- Mobile-first layout -->
+            <div class="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 md:items-center">
+              <!-- Title Section (Always on top for mobile) -->
+              <div class="order-1 md:order-none mb-6 md:mb-0">
+                <div class="flex items-center space-x-4 mb-4">
                   <span class={`px-4 py-2 rounded-full text-sm font-medium ${
                     projekt.status === 'Ukończone' ? 'bg-green-100 text-green-800' :
                     projekt.status === 'W realizacji' ? 'bg-blue-100 text-blue-800' :
@@ -146,72 +148,20 @@ const realizacje = [
                   </span>
                   <span class="text-accent font-medium">{projekt.year}</span>
                 </div>
-                
-                <div>
-                  <h2 class="font-display text-4xl md:text-5xl font-bold text-primary mb-4">
-                    {projekt.title}
-                  </h2>
-                  <div class="flex items-center text-secondary mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    {projekt.location}
-                  </div>
-                  <p class="text-lg text-secondary leading-relaxed">
-                    {projekt.description}
-                  </p>
-                </div>
-
-                <!-- Project Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-secondary mb-1">Powierzchnia</div>
-                    <div class="font-display font-bold text-primary">{projekt.stats.area}</div>
-                  </div>
-                  <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-secondary mb-1">Zaawansowanie</div>
-                    <div class="font-display font-bold text-primary">{projekt.stats.completion}</div>
-                  </div>
-                  <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-secondary mb-1">Liczba lokali</div>
-                    <div class="font-display font-bold text-primary">{projekt.stats.units}</div>
-                  </div>
-                  <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-sm text-secondary mb-1">Cena</div>
-                    <div class="font-display font-bold text-primary">{projekt.stats.price}</div>
-                  </div>
-                </div>
-
-                <!-- Features -->
-                <div class="border-t pt-8">
-                  <h3 class="font-display text-xl font-bold text-primary mb-6">Cechy inwestycji</h3>
-                  <div class="grid grid-cols-2 gap-4">
-                    {projekt.features.map((feature) => (
-                      <div class="flex items-center text-secondary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div class="pt-8">
-                  <a 
-                    href="#" 
-                    class="inline-flex items-center bg-accent hover:bg-primary text-white px-8 py-4 rounded-lg transition-colors"
-                  >
-                    Poznaj szczegóły
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </a>
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-primary mb-4">
+                  {projekt.title}
+                </h2>
+                <div class="flex items-center text-secondary mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {projekt.location}
                 </div>
               </div>
 
-              <div class={`relative ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+              <!-- Image Section -->
+              <div class="order-2 md:order-none relative ${index % 2 === 1 ? 'md:order-1' : ''}">
                 <!-- Image Toggle Buttons -->
                 <div class="absolute top-4 left-4 z-30 bg-white/90 backdrop-blur-sm rounded-lg p-1 shadow-lg">
                   <div class="flex space-x-2">
@@ -259,6 +209,60 @@ const realizacje = [
                   </div>
                 </div>
                 <div class="absolute -z-10 top-8 -right-8 w-full h-full border-2 border-accent/20 rounded-2xl"></div>
+              </div>
+
+              <!-- Content Section -->
+              <div class="order-3 md:order-none space-y-8 mt-8 md:mt-0">
+                <p class="text-lg text-secondary leading-relaxed">
+                  {projekt.description}
+                </p>
+
+                <!-- Project Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="text-sm text-secondary mb-1">Powierzchnia</div>
+                    <div class="font-display font-bold text-primary">{projekt.stats.area}</div>
+                  </div>
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="text-sm text-secondary mb-1">Zaawansowanie</div>
+                    <div class="font-display font-bold text-primary">{projekt.stats.completion}</div>
+                  </div>
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="text-sm text-secondary mb-1">Liczba lokali</div>
+                    <div class="font-display font-bold text-primary">{projekt.stats.units}</div>
+                  </div>
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="text-sm text-secondary mb-1">Cena</div>
+                    <div class="font-display font-bold text-primary">{projekt.stats.price}</div>
+                  </div>
+                </div>
+
+                <!-- Features -->
+                <div class="border-t pt-8">
+                  <h3 class="font-display text-xl font-bold text-primary mb-6">Cechy inwestycji</h3>
+                  <div class="grid grid-cols-2 gap-4">
+                    {projekt.features.map((feature) => (
+                      <div class="flex items-center text-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div class="pt-8">
+                  <a 
+                    href="#" 
+                    class="inline-flex items-center bg-accent hover:bg-primary text-white px-8 py-4 rounded-lg transition-colors"
+                  >
+                    Poznaj szczegóły
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
