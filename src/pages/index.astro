@@ -5,31 +5,31 @@ import BlogCard from '../components/BlogCard.astro';
 
 const properties = [
   {
-    title: "Glass House",
-    location: "Beverly Hills, CA",
-    price: "$12.5M",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
-    beds: 5,
-    baths: 6,
-    sqft: "8,500 sq ft"
-  },
-  {
-    title: "Floating Villa",
-    location: "Miami Beach, FL",
-    price: "$8.9M",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",
+    title: "Apartament Park Residence",
+    location: "Warszawa, Mokotów",
+    price: "1.2M PLN",
+    image: "/images/domy1.jpg",
     beds: 4,
-    baths: 4.5,
-    sqft: "6,200 sq ft"
+    baths: 2,
+    sqft: "120 m²"
   },
   {
-    title: "Sky Mansion",
-    location: "New York, NY",
-    price: "$15.7M",
-    image: "https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&q=80",
-    beds: 6,
-    baths: 7,
-    sqft: "9,800 sq ft"
+    title: "Rezydencja Leśna",
+    location: "Izabelin",
+    price: "2.5M PLN",
+    image: "/images/zimowo.jpg",
+    beds: 5,
+    baths: 3,
+    sqft: "250 m²"
+  },
+  {
+    title: "Apartamenty Nadwiślańskie",
+    location: "Warszawa, Powiśle",
+    price: "890k PLN",
+    image: "/images/arch1.jpg",
+    beds: 3,
+    baths: 2,
+    sqft: "85 m²"
   }
 ];
 
@@ -165,6 +165,94 @@ const blogPosts = [
             <!-- Background Decoration -->
             <div class="absolute top-8 -right-8 w-full h-full border-2 border-accent/20 rounded-2xl -z-10"></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Available Properties Section -->
+    <section class="py-24 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-accent font-medium px-4 py-2 border border-accent/30 rounded-full text-sm tracking-wide mb-6 inline-block">
+            DOSTĘPNE NIERUCHOMOŚCI
+          </span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-primary mb-6">
+            Znajdź Swoje Wymarzone Mieszkanie
+          </h2>
+          <p class="text-xl text-secondary">
+            Odkryj nasze najnowsze inwestycje i wybierz idealne miejsce dla siebie i swojej rodziny
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {properties.map((property) => (
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <div class="relative">
+                <div class="aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={property.image} 
+                    alt={property.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div class="absolute top-4 right-4">
+                  <span class="bg-white/90 backdrop-blur-sm text-primary px-4 py-2 rounded-full text-sm font-medium">
+                    {property.price}
+                  </span>
+                </div>
+              </div>
+              
+              <div class="p-8">
+                <h3 class="font-display text-2xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">
+                  {property.title}
+                </h3>
+                <div class="flex items-center text-secondary mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {property.location}
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 py-6 border-t border-gray-100">
+                  <div class="text-center">
+                    <div class="text-primary font-bold mb-1">{property.beds}</div>
+                    <div class="text-secondary text-sm">Pokoje</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-primary font-bold mb-1">{property.baths}</div>
+                    <div class="text-secondary text-sm">Łazienki</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-primary font-bold mb-1">{property.sqft}</div>
+                    <div class="text-secondary text-sm">Powierzchnia</div>
+                  </div>
+                </div>
+
+                <a 
+                  href="/realizacje" 
+                  class="mt-6 inline-flex items-center text-accent hover:text-accent/80 font-medium transition-colors"
+                >
+                  Zobacz szczegóły
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center mt-12">
+          <a 
+            href="/realizacje" 
+            class="inline-flex items-center bg-accent hover:bg-primary px-8 py-4 rounded-lg font-medium transition-all duration-300 text-white"
+          >
+            <span>Zobacz wszystkie nieruchomości</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>

@@ -7,6 +7,7 @@ const realizacje = [
     location: "Warszawa, Wilanów",
     status: "Ukończone",
     image: "/images/domy1.jpg",
+    floorPlan: "/images/floorplans/osiedle-parkowe-plan.jpg",
     year: "2023",
     description: "Kompleks 12 domów jednorodzinnych w zabudowie szeregowej",
     features: ["4 pokoje", "2 łazienki", "Garaż", "Ogród"],
@@ -22,6 +23,7 @@ const realizacje = [
     location: "Izabelin",
     status: "W realizacji",
     image: "/images/zimowo.jpg",
+    floorPlan: "/images/floorplans/rezydencja-lesna-plan.jpg",
     year: "2024",
     description: "Ekskluzywne domy wolnostojące w otulinie Kampinoskiego Parku Narodowego",
     features: ["5 pokoi", "3 łazienki", "Podwójny garaż", "Duża działka"],
@@ -37,6 +39,7 @@ const realizacje = [
     location: "Warszawa, Powiśle",
     status: "Planowane",
     image: "/images/arch1.jpg",
+    floorPlan: "/images/floorplans/apartamenty-nadwislanskie-plan.jpg",
     year: "2025",
     description: "Nowoczesny kompleks apartamentowy z widokiem na Wisłę",
     features: ["2-4 pokoje", "Taras", "Podziemny parking", "Recepcja"],
@@ -51,6 +54,28 @@ const realizacje = [
 ---
 
 <Layout title="Nasze Realizacje | BORN">
+  <style>
+    .photo-btn.active,
+    .plan-btn.active {
+      background-color: var(--accent-color, #FC431C);
+      color: white;
+    }
+
+    .photo-btn:not(.active),
+    .plan-btn:not(.active) {
+      color: var(--primary-color, #1A1A1A);
+    }
+
+    .photo-btn:not(.active):hover,
+    .plan-btn:not(.active):hover {
+      background-color: #f3f4f6;
+    }
+
+    .plan-container.hidden {
+      display: none;
+    }
+  </style>
+
   <main>
     <!-- Hero Section -->
     <section class="relative min-h-[60vh] flex items-center bg-gray-50 overflow-hidden">
@@ -187,14 +212,47 @@ const realizacje = [
               </div>
 
               <div class={`relative ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+                <!-- Image Toggle Buttons -->
+                <div class="absolute top-4 left-4 z-30 bg-white/90 backdrop-blur-sm rounded-lg p-1 shadow-lg">
+                  <div class="flex space-x-2">
+                    <button 
+                      class="px-4 py-2 rounded-md text-sm font-medium transition-colors photo-btn active"
+                      data-index={index}
+                      data-type="photo"
+                    >
+                      Zdjęcie
+                    </button>
+                    <button 
+                      class="px-4 py-2 rounded-md text-sm font-medium transition-colors plan-btn"
+                      data-index={index}
+                      data-type="plan"
+                    >
+                      Plan
+                    </button>
+                  </div>
+                </div>
+
                 <div class="relative">
                   <div class="aspect-[4/3] rounded-2xl overflow-hidden">
-                    <img 
-                      src={projekt.image} 
-                      alt={projekt.title} 
-                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    />
+                    <!-- Property Photo -->
+                    <div class="photo-container w-full h-full" data-index={index}>
+                      <img 
+                        src={projekt.image} 
+                        alt={projekt.title} 
+                        class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+
+                    <!-- Floor Plan -->
+                    <div class="plan-container w-full h-full absolute inset-0 bg-white hidden" data-index={index}>
+                      <img 
+                        src={projekt.floorPlan} 
+                        alt={`Plan mieszkania ${projekt.title}`} 
+                        class="w-full h-full object-contain p-4"
+                      />
+                    </div>
                   </div>
+
                   <!-- Decorative elements -->
                   <div class="absolute -bottom-8 -right-8 bg-white p-6 rounded-2xl shadow-xl">
                     <div class="text-3xl font-display font-bold text-accent">{projekt.year}</div>
@@ -241,4 +299,49 @@ const realizacje = [
       </div>
     </section>
   </main>
+
+  <script>
+    function initializeImageToggles() {
+      const photoButtons = document.querySelectorAll('.photo-btn');
+      const planButtons = document.querySelectorAll('.plan-btn');
+
+      photoButtons.forEach((button) => {
+        button.addEventListener('click', function() {
+          const index = this.getAttribute('data-index');
+          const photoContainer = document.querySelector(`.photo-container[data-index="${index}"]`);
+          const planContainer = document.querySelector(`.plan-container[data-index="${index}"]`);
+          
+          // Show photo, hide plan
+          photoContainer.classList.remove('hidden');
+          planContainer.classList.add('hidden');
+          
+          // Update button states
+          this.classList.add('active');
+          document.querySelector(`.plan-btn[data-index="${index}"]`).classList.remove('active');
+        });
+      });
+
+      planButtons.forEach((button) => {
+        button.addEventListener('click', function() {
+          const index = this.getAttribute('data-index');
+          const photoContainer = document.querySelector(`.photo-container[data-index="${index}"]`);
+          const planContainer = document.querySelector(`.plan-container[data-index="${index}"]`);
+          
+          // Show plan, hide photo
+          planContainer.classList.remove('hidden');
+          photoContainer.classList.add('hidden');
+          
+          // Update button states
+          this.classList.add('active');
+          document.querySelector(`.photo-btn[data-index="${index}"]`).classList.remove('active');
+        });
+      });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initializeImageToggles);
+
+    // Re-initialize after Astro view transitions
+    document.addEventListener('astro:page-load', initializeImageToggles);
+  </script>
 </Layout> 
